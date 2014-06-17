@@ -10,6 +10,8 @@ class Robot
 
   def activate
     debug_output("online status: #{@online = true}")
+    # self.online = true
+    # I think this would work but it's not DRY
   end
 end
 
@@ -54,7 +56,7 @@ end
 
 
 module Speech
-  def say (msg)
+  def say(msg)
     #Codey McCode Code
   end
 end
@@ -73,7 +75,8 @@ class Robot
 
   def move(target)
     # had to look up car_validation.rb to remember
-    raise ImmobileError.new if @legs == 0 && @wheels
+    raise ImmobileError.new if @legs == 0 && @wheels == 0
+    # Else get that thing moving!
   end
 end
 
@@ -86,6 +89,15 @@ end
 class RobotRace
   def qualified?(robot)
     raise Robot::ImmobileError unless robot.move == true
+
+    # RIGHT ANSWER
+    # begin
+    #   robot.move
+    #   true
+    # rescue Robot::ImmobileError
+    #   false
+    # end
+
     robot.move
   end
 end
