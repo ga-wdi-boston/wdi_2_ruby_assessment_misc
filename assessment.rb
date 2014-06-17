@@ -93,14 +93,15 @@ end
 # raise a Robot::ImmobileError if the robot cannot move.
 
 class RobotRace
-  def qualified?(robot)
-   # qualified? ? self.RobotRace.new.move == true : 'false'
-   # qualified = true
+    def qualified?(robot)
+     # qualified? ? self.RobotRace.new.move == true : 'false'
+     # qualified = true
     begin
-    robot.move
-    true
-  rescue Robot::ImmobileError
-    false
+      robot.move(:test_target)
+      true
+    rescue Robot::ImmobileError
+      false
+    end
   end
 end
 
@@ -109,3 +110,26 @@ end
 # Copy and paste the classes from questions 4 and 5 here, then modify them so
 # the qualification check can be done without having to rescue an error. In the
 # real world this approach is preferred, if we have control over both classes.
+
+
+class Robot
+  class ImmobileError < StandardError; end
+
+
+  def initialize(legs: 0, wheels: 0)
+    @legs, @wheels = legs, wheels
+  end
+
+  def move(target)
+    raise ImmobileError unless mobile?
+    #raise ImmobileError("Hey, you can't move!") unless @legs > 0 || @wheels > 0
+  end
+end
+
+
+class RobotRace
+    def qualified?(robot)
+      robot.mobile?
+  end
+end
+
