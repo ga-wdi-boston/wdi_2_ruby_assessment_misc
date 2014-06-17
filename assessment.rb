@@ -7,9 +7,9 @@ class Robot
     debug_output("online status: #{value}")
     @online = value
   end
-  
+
   def activate
-    # Replace me!
+    self.online = 'true'
   end
 end
 
@@ -29,19 +29,29 @@ class Robot
   end
 end
 
+bender = Robot.new
+bender.deactivate
+bender.deativate_all
 
 #### Question 3
 # Write a module called `Speech` and add an instance method called `say` to it
 # (no code needed in this method). Then add code to the Human and Robot classes
 # that will allow them to use the `say` method.
 
+module Speech
+  def say
+  end
+end
+
 class Human
+  include Speech
   def chat
     say('How about that weather?')
   end
 end
 
 class Robot
+  include Speech
   def chat
     say('Small talk program not installed.')
   end
@@ -55,12 +65,14 @@ end
 class Robot
   class ImmobileError < StandardError; end
 
+  attr_reader :legs, :wheels
+
   def initialize(legs: 0, wheels: 0)
     @legs, @wheels = legs, wheels
   end
 
   def move(target)
-    # Replace me!
+    raise ImmobileError.new("No legs or wheels on this robot.") if target.legs == 0 && target.wheels == 0
   end
 end
 
@@ -72,8 +84,7 @@ end
 
 class RobotRace
   def qualified?(robot)
-    # Modify me!
-    robot.move
+    if robot.move == true
   end
 end
 
