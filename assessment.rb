@@ -9,7 +9,8 @@ class Robot
   end
 
   def activate
-    online = true
+    #my answer:  online = true
+    self.online = true
   end
 end
 
@@ -33,6 +34,8 @@ myrobot = Robot.new
 myrobot.deactivate
 
 Robot.deactivate_all
+
+# right!
 
 #### Question 3
 # Write a module called `Speech` and add an instance method called `say` to it
@@ -59,6 +62,8 @@ class Robot
   end
 end
 
+#
+
 
 #### Question 4
 # Replace the comment below with code that will raise a Robot::ImmobileError
@@ -81,6 +86,7 @@ class Robot
   end
 end
 
+# right!
 
 #### Question 5
 # Modify the `qualified?` method below so that it returns `true` if the robot
@@ -93,18 +99,21 @@ class RobotRace
     begin
       robot.move
       true
-    rescue ImmobileError => e
+    # my answer --- rescue ImmobileError => e
+    rescue Robot::ImmobileError
       false
     end
   end
 
 end
 
+# wrong!
 
 #### Bonus Question
 # Copy and paste the classes from questions 4 and 5 here, then modify them so
 # the qualification check can be done without having to rescue an error. In the
 # real world this approach is preferred, if we have control over both classes.
+
 
 class Robot
   class ImmobileError < StandardError; end
@@ -115,15 +124,24 @@ class Robot
     @legs, @wheels = legs, wheels
   end
 
+  def mobile?
+    legs > 0 || wheels > 0
+  end
+
   def move(target)
-    robot_does_a_moving_thing if qualified?
+    robot_go_to_place(target) if mobile?
   end
 end
 
 class RobotRace
 
   def qualified?(robot)
-    !(robot.legs == 0 && robot.wheels == 0)
+    robot.mobile?
   end
 
 end
+
+# added this during the checks for the other questions
+# and it's right! yay!
+
+
