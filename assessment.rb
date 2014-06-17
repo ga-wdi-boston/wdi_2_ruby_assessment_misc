@@ -1,4 +1,4 @@
-#### Question 1
+#### Question 1- incorrect
 # Replace the comment below with a single line of code that will set the
 # robot's online status to `true` and correctly output the debugging string.
 
@@ -7,48 +7,66 @@ class Robot
     debug_output("online status: #{value}")
     @online = value
   end
-  
+
   def activate
-    # Replace me!
+    @online = true #self.online = true, needs to be true to go through the setter method and output the message
   end
 end
 
 
-#### Question 2
+#### Question 2 half correct
 # Given the following class, write code that would create a single robot and
 # deactivate it. Then write code that would deactivate all robots. Do not change
 # the class definition -- assume the methods do what they say.
 
+Robot.new.deactivate # create new_robot = Robot.new, new_robot.deactivate
+Robot.deactivate_all
+
 class Robot
   def deactivate
-    # ...
+    #...
   end
 
   def self.deactivate_all
-    # ...
+    #...
   end
 end
 
 
-#### Question 3
+#### Question 3- correct
 # Write a module called `Speech` and add an instance method called `say` to it
 # (no code needed in this method). Then add code to the Human and Robot classes
 # that will allow them to use the `say` method.
 
+module Speech
+
+  def say
+  end
+
+end
+
 class Human
+
+  include Speech
+
   def chat
     say('How about that weather?')
   end
+
 end
 
 class Robot
+
+  include Speech
+
   def chat
     say('Small talk program not installed.')
   end
+
 end
 
 
-#### Question 4
+#### Question 4 incorrect
 # Replace the comment below with code that will raise a Robot::ImmobileError
 # when `move` is called on a robot that has no legs and no wheels.
 
@@ -60,20 +78,37 @@ class Robot
   end
 
   def move(target)
-    # Replace me!
+    raise ImmobileError if @legs == 0  && @wheels == 0
   end
 end
 
 
-#### Question 5
+#### Question 5- incorrect
 # Modify the `qualified?` method below so that it returns `true` if the robot
 # passed into it can move and `false` otherwise. Assume the `move` method will
 # raise a Robot::ImmobileError if the robot cannot move.
 
 class RobotRace
   def qualified?(robot)
-    # Modify me!
-    robot.move
+    begin
+      if robot.move
+        true
+      else
+        false
+      end
+    rescue Robot::ImmobileError
+    end
+  end
+end
+
+class RobotRace
+  def qualified?(robot)
+    begin
+      robot.move
+      true
+    rescue Robot::ImmobileError # if any of the code above raises an error- execute the code below
+      false
+    end
   end
 end
 
