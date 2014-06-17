@@ -7,9 +7,9 @@ class Robot
     debug_output("online status: #{value}")
     @online = value
   end
-  
+
   def activate
-    # Replace me!
+    self.online = 'active'
   end
 end
 
@@ -29,19 +29,31 @@ class Robot
   end
 end
 
+robot1 = Robot.new
+robot1.deactivate
+
+self.deactivate_all
+
 
 #### Question 3
 # Write a module called `Speech` and add an instance method called `say` to it
 # (no code needed in this method). Then add code to the Human and Robot classes
 # that will allow them to use the `say` method.
 
+module Speech
+  def say
+  end
+end
+
 class Human
+  include Speech
   def chat
     say('How about that weather?')
   end
 end
 
 class Robot
+  include Speech
   def chat
     say('Small talk program not installed.')
   end
@@ -60,7 +72,7 @@ class Robot
   end
 
   def move(target)
-    # Replace me!
+    raise RobotImobileError.new "Robot has no legs and no wheels"
   end
 end
 
@@ -72,8 +84,10 @@ end
 
 class RobotRace
   def qualified?(robot)
-    # Modify me!
+    if robot.move
     robot.move
+  else
+    raise RobotImobileError.new "Robot cannot move"
   end
 end
 
