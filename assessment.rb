@@ -7,9 +7,9 @@ class Robot
     debug_output("online status: #{value}")
     @online = value
   end
-  
+
   def activate
-    # Replace me!
+    self.online = 'active'
   end
 end
 
@@ -20,6 +20,9 @@ end
 # the class definition -- assume the methods do what they say.
 
 class Robot
+
+  robot = Robot.new
+
   def deactivate
     # ...
   end
@@ -34,6 +37,10 @@ end
 # Write a module called `Speech` and add an instance method called `say` to it
 # (no code needed in this method). Then add code to the Human and Robot classes
 # that will allow them to use the `say` method.
+
+module Speech
+  @@say
+end
 
 class Human
   def chat
@@ -60,7 +67,7 @@ class Robot
   end
 
   def move(target)
-    # Replace me!
+    raise ImmobileError
   end
 end
 
