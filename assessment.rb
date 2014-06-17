@@ -7,9 +7,10 @@ class Robot
     debug_output("online status: #{value}")
     @online = value
   end
-  
+
   def activate
-    # Replace me!
+    #my answer:  online = true
+    self.online = true
   end
 end
 
@@ -29,23 +30,39 @@ class Robot
   end
 end
 
+myrobot = Robot.new
+myrobot.deactivate
+
+Robot.deactivate_all
+
+# right!
 
 #### Question 3
 # Write a module called `Speech` and add an instance method called `say` to it
 # (no code needed in this method). Then add code to the Human and Robot classes
 # that will allow them to use the `say` method.
 
+module Speech
+  def say(something)
+    # some stuff
+  end
+end
+
 class Human
+  include Speech
   def chat
     say('How about that weather?')
   end
 end
 
 class Robot
+  include Speech
   def chat
     say('Small talk program not installed.')
   end
 end
+
+#
 
 
 #### Question 4
@@ -60,10 +77,16 @@ class Robot
   end
 
   def move(target)
-    # Replace me!
+    if legs == 0 && wheels == 0
+      raise ImmobileError
+    else
+      # do the thing that moves
+    end
+
   end
 end
 
+# right!
 
 #### Question 5
 # Modify the `qualified?` method below so that it returns `true` if the robot
@@ -71,14 +94,54 @@ end
 # raise a Robot::ImmobileError if the robot cannot move.
 
 class RobotRace
+
   def qualified?(robot)
-    # Modify me!
-    robot.move
+    begin
+      robot.move
+      true
+    # my answer --- rescue ImmobileError => e
+    rescue Robot::ImmobileError
+      false
+    end
   end
+
 end
 
+# wrong!
 
 #### Bonus Question
 # Copy and paste the classes from questions 4 and 5 here, then modify them so
 # the qualification check can be done without having to rescue an error. In the
 # real world this approach is preferred, if we have control over both classes.
+
+
+class Robot
+  class ImmobileError < StandardError; end
+
+  attr_accessor :legs, :wheels
+
+  def initialize(legs: 0, wheels: 0)
+    @legs, @wheels = legs, wheels
+  end
+
+  def mobile?
+    legs > 0 || wheels > 0
+  end
+
+  def move(target)
+    robot_go_to_place(target) if mobile?
+  end
+end
+
+class RobotRace
+
+  def qualified?(robot)
+    robot.mobile?
+  end
+
+end
+
+# added this during the checks for the other questions
+# and it's right! yay!
+
+
