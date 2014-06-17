@@ -7,9 +7,11 @@ class Robot
     debug_output("online status: #{value}")
     @online = value
   end
-  
+
   def activate
-    # Replace me!
+    debug_output("online status: #{@online = true}")
+    # self.online = true
+    # I think this would work but it's not DRY
   end
 end
 
@@ -29,6 +31,9 @@ class Robot
   end
 end
 
+roboat = Robot.new.deactivate
+Robot.deactivate_all
+
 
 #### Question 3
 # Write a module called `Speech` and add an instance method called `say` to it
@@ -36,14 +41,23 @@ end
 # that will allow them to use the `say` method.
 
 class Human
+  include Speech
   def chat
     say('How about that weather?')
   end
 end
 
 class Robot
+  include Speech
   def chat
     say('Small talk program not installed.')
+  end
+end
+
+
+module Speech
+  def say(msg)
+    #Codey McCode Code
   end
 end
 
@@ -60,7 +74,9 @@ class Robot
   end
 
   def move(target)
-    # Replace me!
+    # had to look up car_validation.rb to remember
+    raise ImmobileError.new if @legs == 0 && @wheels == 0
+    # Else get that thing moving!
   end
 end
 
@@ -72,7 +88,16 @@ end
 
 class RobotRace
   def qualified?(robot)
-    # Modify me!
+    raise Robot::ImmobileError unless robot.move == true
+
+    # RIGHT ANSWER
+    # begin
+    #   robot.move
+    #   true
+    # rescue Robot::ImmobileError
+    #   false
+    # end
+
     robot.move
   end
 end
@@ -82,3 +107,23 @@ end
 # Copy and paste the classes from questions 4 and 5 here, then modify them so
 # the qualification check can be done without having to rescue an error. In the
 # real world this approach is preferred, if we have control over both classes.
+
+class Robot
+  class ImmobileError < StandardError; end
+
+  def initialize(legs: 0, wheels: 0)
+    @legs, @wheels = legs, wheels
+  end
+
+  def move(target)
+    if @legs == 0 && @wheels == 0
+      false
+    else true
+    end
+  end
+
+  class RobotRace
+    def qualified?(robot)
+      robot.move
+    end
+  end
