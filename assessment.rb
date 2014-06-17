@@ -7,10 +7,11 @@ class Robot
     debug_output("online status: #{value}")
     @online = value
   end
-  
+
   def activate
-    # Replace me!
+    value = 'true'
   end
+
 end
 
 
@@ -20,6 +21,11 @@ end
 # the class definition -- assume the methods do what they say.
 
 class Robot
+  attr_reader :name
+
+  def initialize(name)
+    @name = []
+    self.Robot.new.push
   def deactivate
     # ...
   end
@@ -27,6 +33,8 @@ class Robot
   def self.deactivate_all
     # ...
   end
+
+
 end
 
 
@@ -34,14 +42,20 @@ end
 # Write a module called `Speech` and add an instance method called `say` to it
 # (no code needed in this method). Then add code to the Human and Robot classes
 # that will allow them to use the `say` method.
+module Speech
+  def say_it
+  end
+end
 
 class Human
+  include Speech::assessment
   def chat
     say('How about that weather?')
   end
 end
 
 class Robot
+  include Speech::assessment
   def chat
     say('Small talk program not installed.')
   end
@@ -55,13 +69,18 @@ end
 class Robot
   class ImmobileError < StandardError; end
 
+
   def initialize(legs: 0, wheels: 0)
     @legs, @wheels = legs, wheels
   end
 
   def move(target)
-    # Replace me!
+    raise ImmobileError("Hey, you can't move!") unless self.legs > 0 && self.wheels > 0
   end
+
+  #self.ImmobileError
+  jon = Robot.new(legs: 0, wheels: 0)
+  jon.move
 end
 
 
@@ -72,7 +91,7 @@ end
 
 class RobotRace
   def qualified?(robot)
-    # Modify me!
+    qualified? ? self.RobotRace.new.move == true : 'false'
     robot.move
   end
 end
